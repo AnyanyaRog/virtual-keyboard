@@ -20,7 +20,7 @@ keys.forEach(keyRow => {
   keyRow.forEach(key => {
     const button = document.createElement('button');
     button.textContent = key;
-    button.id=key;
+    button.classList.add('key');
     if (key=='Space') {
        button.classList.add('space_button') 
     }
@@ -34,4 +34,36 @@ keys.forEach(keyRow => {
   });
   keyboardContainer.appendChild(row);
 });
+/*Обработчик клика*/
+const keyz = document.querySelectorAll('.key');
 
+  const keyCodes = [
+    'Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6',
+    'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace',
+    'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI',
+    'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete',
+    'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ',
+    'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter', 'ShiftLeft', 'KeyZ',
+    'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period',
+    'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft',
+    'Space', 'AltRight','ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight',
+  ];
+  keyz.forEach((key, index) => {
+    const keyCode = keyCodes[index];
+    key.setAttribute('data-key', keyCode);
+  });
+document.addEventListener('keydown', function(event) {
+    const keyCode =  event.code;
+    const key = document.querySelector(`.key[data-key="${keyCode}"]`);
+    if (key) {
+      key.classList.add('active');
+    } keyCode
+  });
+  
+  document.addEventListener('keyup', function(event) {
+    const keyCode =  event.code;
+    const key = document.querySelector(`.key[data-key="${keyCode}"]`);
+    if (key) {
+      key.classList.remove('active');
+    }
+  });
