@@ -1,0 +1,30 @@
+body {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+.keyboard-container {
+    width: 600px;
+    text-align: left;
+    position: absolute;
+    bottom: 0;
+}
+.text-area {
+    width: 470px;
+    height: 300px;
+}
+button {
+    margin: 3px;
+    background-color: pink;
+    box-shadow: 1px 1px 1px 0.5px black;
+}
+.space_button {
+width: 135px;
+}
+.caps_button {
+    width: 80px;
+}
+.active {
+    background-color: #fff;
+}
+
