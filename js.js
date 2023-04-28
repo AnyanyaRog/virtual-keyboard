@@ -32,27 +32,18 @@ button = [
   ['', '', '', '', '', '', '', '', '', '', '', '', ''],
   [ '', '', '', '', , '', '', '',  '', '' ]
 ];
-let language = en;
-
-
-
 // создаем кнопки клавиатуры и добавляем их на страницу
-
-
 button.forEach(keyRow => {
   const row = document.createElement('div');
   row.classList.add('keyboard-row');
   keyRow.forEach(key => {
     const button = document.createElement('button');
-    /**/ 
     button.classList.add('key');
     row.appendChild(button);
   });
   keyboardContainer.appendChild(row);
 });
 let keyz = document.querySelectorAll('.key');
-
-
 function updateKeyboardLayout() {
 const selectedLanguage = localStorage.getItem('selectedLanguage');
 keyz.forEach((key, index) => {
@@ -82,7 +73,7 @@ keyz.forEach((key, index) => {
         key.textContent =  keyCode;
 
     }})
-    lang.textContent = `Language: ${selectedLanguage.toUpperCase()}`;
+    lang.textContent = `Language (ctrl + shift): ${selectedLanguage.toUpperCase()}`;
 }; updateKeyboardLayout();
 /*Обработчик клика*/
   const keyCodes = [
@@ -105,13 +96,10 @@ keyz.forEach((key, index) => {
         const keyCode =  event.code;
         const key = document.querySelector(`.key[data-key="${keyCode}"]`);
         if (key) {
-            if (keyCode == 'AltLeft' && keyCode == 'LeftCtrl') {
-                console.log(key)
-            }
+          textarea.focus();
           key.classList.add('active');
         } keyCode
     });
-    
     document.addEventListener('keyup', function(event) {
         const keyCode =  event.code;
         const key = document.querySelector(`.key[data-key="${keyCode}"]`);
@@ -119,8 +107,38 @@ keyz.forEach((key, index) => {
           key.classList.remove('active');
         }
       });
+    /*Обработчик клика виртуальной клавиатуры*/
+    keyz.forEach(key => {
+        key.addEventListener('click', () => {
+          textarea.focus();
+          let cursorPosition = textarea.selectionStart; 
+          let textBeforeCursor = textarea.value.substring(0, cursorPosition); 
+          let textAfterCursor = textarea.value.substring(cursorPosition, textarea.value.length); 
+          if(key.textContent.toLowerCase() == 'enter' ) {
+            textarea.value = textBeforeCursor + '\n' + textAfterCursor; 
+          } else 
+          if(key.textContent.toLowerCase() == 'tab' ) {
+            textarea.value = textBeforeCursor + '\t' + textAfterCursor; 
+          } else
+          if(key.textContent.toLowerCase() == 'backspace' ) {
+            const textBeforeCursor = textarea.value.substring(0, cursorPosition - 1);
+            const textAfterCursor = textarea.value.substring(cursorPosition);
+            textarea.value = textBeforeCursor + textAfterCursor;
+            textarea.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
+          } else
+         
+          if(key.textContent.toLowerCase() == 'del' ) {
+            const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+            const textAfterCursor = textarea.value.substring(cursorPosition + 1);
+            textarea.value = textBeforeCursor + textAfterCursor;
+            textarea.selectionStart = cursorPosition;
+            textarea.selectionEnd = cursorPosition;
+          } else
+          textarea.value = textBeforeCursor +  key.textContent  + textAfterCursor;
+       
+    })})
+   
       /*ПЕРЕВОД */
-      
       function toggleLanguage() {
         const selectedLanguage = localStorage.getItem('selectedLanguage');
         const newLanguage = selectedLanguage === 'en' ? 'ru' : 'en';
