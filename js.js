@@ -91,12 +91,10 @@ keyz.forEach((key, index) => {
     const keyCode = keyCodes[index];
     key.setAttribute('data-key', keyCode);
   });
-  
     document.addEventListener('keydown', function(event) {
         const keyCode =  event.code;
         const key = document.querySelector(`.key[data-key="${keyCode}"]`);
         if (key) {
-          
           if (key.classList.contains("active_capslock")) {
             key.classList.remove("active_capslock")
           } else if(keyCode == 'CapsLock') {
@@ -105,9 +103,6 @@ keyz.forEach((key, index) => {
           textarea.focus();
           key.classList.add('active');
         } keyCode
-        
-
-
     });
     document.addEventListener('keyup', function(event) {
         const keyCode =  event.code;
