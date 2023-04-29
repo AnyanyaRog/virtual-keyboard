@@ -32,6 +32,9 @@ width: 135px;
 .caps_button {
     width: 80px;
 }
+.active_capslock {
+    background-color: palevioletred;
+}
 .active {
     background-color: #fff;
 }

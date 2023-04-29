@@ -96,9 +96,18 @@ keyz.forEach((key, index) => {
         const keyCode =  event.code;
         const key = document.querySelector(`.key[data-key="${keyCode}"]`);
         if (key) {
+          
+          if (key.classList.contains("active_capslock")) {
+            key.classList.remove("active_capslock")
+          } else if(keyCode == 'CapsLock') {
+            key.classList.add("active_capslock")
+          } 
           textarea.focus();
           key.classList.add('active');
         } keyCode
+        
+
+
     });
     document.addEventListener('keyup', function(event) {
         const keyCode =  event.code;
@@ -108,17 +117,22 @@ keyz.forEach((key, index) => {
         }
       });
     /*Обработчик клика виртуальной клавиатуры*/
+    
     keyz.forEach(key => {
+      let capslock = false;
+      let caps = document.querySelector(".caps_button")
         key.addEventListener('click', () => {
           textarea.focus();
           let cursorPosition = textarea.selectionStart; 
           let textBeforeCursor = textarea.value.substring(0, cursorPosition); 
-          let textAfterCursor = textarea.value.substring(cursorPosition, textarea.value.length); 
+          let textAfterCursor = textarea.value.substring(cursorPosition); 
           if(key.textContent.toLowerCase() == 'enter' ) {
-            textarea.value = textBeforeCursor + '\n' + textAfterCursor; 
+            textarea.value = textarea.value.substring(0, cursorPosition) + '\n' + textarea.value.substring(textarea.selectionEnd);
+            textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
           } else 
           if(key.textContent.toLowerCase() == 'tab' ) {
-            textarea.value = textBeforeCursor + '\t' + textAfterCursor; 
+            textarea.value = textarea.value.substring(0, cursorPosition) + '\t' + textarea.value.substring(textarea.selectionEnd);
+            textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
           } else
           if(key.textContent.toLowerCase() == 'backspace' ) {
             const textBeforeCursor = textarea.value.substring(0, cursorPosition - 1);
@@ -126,16 +140,26 @@ keyz.forEach((key, index) => {
             textarea.value = textBeforeCursor + textAfterCursor;
             textarea.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
           } else
-         
           if(key.textContent.toLowerCase() == 'del' ) {
+            let cursorPosition = textarea.selectionStart; 
             const textBeforeCursor = textarea.value.substring(0, cursorPosition);
             const textAfterCursor = textarea.value.substring(cursorPosition + 1);
-            textarea.value = textBeforeCursor + textAfterCursor;
-            textarea.selectionStart = cursorPosition;
-            textarea.selectionEnd = cursorPosition;
+            textarea.value =   textBeforeCursor + textAfterCursor;
+            textarea.setSelectionRange(cursorPosition, cursorPosition);
           } else
-          textarea.value = textBeforeCursor +  key.textContent  + textAfterCursor;
-       
+          if(key.textContent.toLowerCase() == 'caps lock' ) {
+            capslock = !capslock;
+            if (capslock) {
+              key.classList.add('active_capslock');
+            } else {
+              key.classList.remove('active_capslock');
+            }}
+          else {  if(caps.classList.contains("active_capslock")) {
+            textarea.value = textBeforeCursor +  key.textContent.toUpperCase()  + textAfterCursor;
+            textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+          } else {
+          textarea.value = textBeforeCursor +  key.textContent.toLowerCase()  + textAfterCursor;
+          textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1); }}
     })})
    
       /*ПЕРЕВОД */
