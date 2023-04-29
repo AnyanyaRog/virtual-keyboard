@@ -87,6 +87,7 @@ keyz.forEach((key, index) => {
     'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft',
     'Space', 'AltRight','ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight',
   ];
+  
   keyz.forEach((key, index) => {
     const keyCode = keyCodes[index];
     key.setAttribute('data-key', keyCode);
@@ -150,9 +151,11 @@ keyz.forEach((key, index) => {
               key.classList.remove('active_capslock');
             }}
           else {  if(caps.classList.contains("active_capslock")) {
+            
             textarea.value = textBeforeCursor +  key.textContent.toUpperCase()  + textAfterCursor;
             textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
           } else {
+      
           textarea.value = textBeforeCursor +  key.textContent.toLowerCase()  + textAfterCursor;
           textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1); }}
     })})
