@@ -119,6 +119,11 @@ keyz.forEach((key, index) => {
       let caps = document.querySelector(".caps_button")
         key.addEventListener('click', () => {
           textarea.focus();
+          key.classList.add("active")
+          setTimeout(() => {
+            key.classList.remove('active');
+          }, 100);
+
           let cursorPosition = textarea.selectionStart; 
           let textBeforeCursor = textarea.value.substring(0, cursorPosition); 
           let textAfterCursor = textarea.value.substring(cursorPosition); 
@@ -149,13 +154,14 @@ keyz.forEach((key, index) => {
               key.classList.add('active_capslock');
             } else {
               key.classList.remove('active_capslock');
-            }}
+            }} 
+            
           else {  if(caps.classList.contains("active_capslock")) {
             
             textarea.value = textBeforeCursor +  key.textContent.toUpperCase()  + textAfterCursor;
             textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
           } else {
-      
+            
           textarea.value = textBeforeCursor +  key.textContent.toLowerCase()  + textAfterCursor;
           textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1); }}
     })})
