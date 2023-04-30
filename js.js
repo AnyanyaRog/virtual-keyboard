@@ -87,12 +87,13 @@ keyz.forEach((key, index) => {
     'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft',
     'Space', 'AltRight','ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight',
   ];
-  
+  let shiftPressed = false;
   keyz.forEach((key, index) => {
     const keyCode = keyCodes[index];
     key.setAttribute('data-key', keyCode);
   });
     document.addEventListener('keydown', function(event) {
+      let cursorPosition = textarea.selectionStart; 
         const keyCode =  event.code;
         const key = document.querySelector(`.key[data-key="${keyCode}"]`);
         if (key) {
@@ -101,6 +102,22 @@ keyz.forEach((key, index) => {
           } else if(keyCode == 'CapsLock') {
             key.classList.add("active_capslock")
           } 
+          if(keyCode == 'ArrowLeft' || keyCode == 'ArrowRight' || keyCode == 'ArrowUp' || keyCode == 'ArrowDown') {
+        
+          let textBeforeCursor = textarea.value.substring(0, cursorPosition); 
+          let textAfterCursor = textarea.value.substring(cursorPosition); 
+            event.preventDefault();
+            textarea.value = textBeforeCursor +  key.textContent.toUpperCase()  + textAfterCursor;
+            textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+          } 
+          if(key.textContent.toLowerCase() == 'tab' ) {
+            event.preventDefault();
+            textarea.value = textarea.value.substring(0, cursorPosition) + '\t' + textarea.value.substring(textarea.selectionEnd);
+            textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+          } 
+          if (event.code === 'ShiftLeft') {
+            shiftPressed = true;
+          }
           textarea.focus();
           key.classList.add('active');
         } keyCode
@@ -109,6 +126,10 @@ keyz.forEach((key, index) => {
         const keyCode =  event.code;
         const key = document.querySelector(`.key[data-key="${keyCode}"]`);
         if (key) {
+          if (event.code === 'ShiftLeft') {
+            shiftPressed = false;
+          }
+
           key.classList.remove('active');
         }
       });
@@ -156,7 +177,7 @@ keyz.forEach((key, index) => {
               key.classList.remove('active_capslock');
             }} 
             
-          else {  if(caps.classList.contains("active_capslock")) {
+          else {  if(caps.classList.contains("active_capslock") || shiftPressed) {
             
             textarea.value = textBeforeCursor +  key.textContent.toUpperCase()  + textAfterCursor;
             textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
@@ -178,3 +199,5 @@ keyz.forEach((key, index) => {
           toggleLanguage();
         }
       });
+   
+    
