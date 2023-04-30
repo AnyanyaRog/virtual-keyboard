@@ -38,4 +38,7 @@ width: 135px;
 .active {
     background-color: palevioletred;
 }
+.uppercase {
+    text-transform: uppercase;
+}
 
