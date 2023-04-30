@@ -3,6 +3,10 @@ keyboardContainer.classList.add('keyboard-container');
 document.body.appendChild(keyboardContainer);
 const lang = document.createElement('div');
 lang.classList.add('language');
+const head = document.createElement('div')
+head.classList.add('header')
+head.textContent= "Virtual-keyboard";
+document.body.appendChild(head);
 keyboardContainer.appendChild(lang);
 const textarea = document.createElement('textarea');
 textarea.classList.add('text-area');
@@ -154,13 +158,9 @@ keyz.forEach((key, index) => {
     keyz.forEach(key => {
       let capslock = false;
       let caps = document.querySelector(".caps_button")
-        key.addEventListener('click', () => {
+        key.addEventListener('mousedown', () => {
           textarea.focus();
           key.classList.add("active")
-          setTimeout(() => {
-            key.classList.remove('active');
-          }, 100);
-
           let cursorPosition = textarea.selectionStart; 
           let textBeforeCursor = textarea.value.substring(0, cursorPosition); 
           let textAfterCursor = textarea.value.substring(cursorPosition); 
@@ -195,29 +195,29 @@ keyz.forEach((key, index) => {
               key.classList.add('active_capslock');
             } else {
               key.classList.remove('active_capslock');
-            }} 
-            
+            }} else 
+            if(key.textContent.toLowerCase() == 'shift') {
+              shiftPressed = true;
+            }
           else 
-          if(key.textContent.toLowerCase() != 'ctrl'  && key.textContent.toLowerCase() != 'alt' && key.textContent.toLowerCase() != 'shift' && key.textContent.toLowerCase() != 'win') {
+          if(key.textContent.toLowerCase() != 'ctrl'  && key.textContent.toLowerCase() != 'alt' && key.textContent.toLowerCase() != 'win') {
           {  if(caps.classList.contains("active_capslock") || shiftPressed ) {
             textarea.value = textBeforeCursor +  key.textContent.toUpperCase()  + textAfterCursor;
             textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
           } else {
           textarea.value = textBeforeCursor +  key.textContent.toLowerCase()  + textAfterCursor;
           textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1); }}}
-    })})
-    keyz.forEach(key => {
-   if(key.textContent.toLowerCase() == 'shift') {
-        key.addEventListener('mousedown', function() {
-          shiftPressed = true;
-          key.classList.add('active');
-        });
-        key.addEventListener('mouseup', function() {
-          shiftPressed = false;
-          key.classList.remove('active');
-        });
-      }
     })
+    key.addEventListener('mouseup', function() {
+      textarea.focus();
+      key.classList.remove('active');
+      if(key.textContent.toLowerCase() == 'shift') {
+        shiftPressed = false;
+      }
+    });
+  
+  })
+   
       /*ПЕРЕВОД */
       function toggleLanguage() {
         const selectedLanguage = localStorage.getItem('selectedLanguage');
