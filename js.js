@@ -67,7 +67,7 @@ keyz.forEach((key, index) => {
         let keyCode = ru[index]; 
         key.textContent =  keyCode;
     }})
-    lang.textContent = `Language (ctrl + shift): ${selectedLanguage.toUpperCase()}`;
+    lang.textContent = `Language (ctrl + shift): ${selectedLanguage.toUpperCase()}` + '\n' + 'Клавиатура создана в операционной системе Windows';
 }; updateKeyboardLayout();
 /*Добавдение кодов*/
   const keyCodes = [
@@ -87,7 +87,7 @@ keyz.forEach((key, index) => {
     key.setAttribute('data-key', keyCode);
   });
   /*Обработчик клика*/
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', (event) =>{
       let cursorPosition = textarea.selectionStart; 
         const keyCode =  event.code;
         const key = document.querySelector(`.key[data-key="${keyCode}"]`);
